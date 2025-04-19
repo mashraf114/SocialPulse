@@ -1,0 +1,13 @@
+[User Clicks Login] 
+      ↓
+[React] ➜ TikTok OAuth URL
+      ↓
+[TikTok Auth & Approve]
+      ↓
+[TikTok Redirects to Django `/callback/?code=...`]
+      ↓
+[Django gets Access Token]
+      ↓
+[Django uploads video using TikTok API]
+      ↓
+[Django publishes the video]
