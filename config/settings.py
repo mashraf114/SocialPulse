@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%@o@^2v7^!2_=ptf#9o2!$fs^gcay4y+#&e&&-yi$$$ws(i&sg'
+SECRET_KEY = 'django-insecure-nw%qa=4^ia@m6$j)7o+x0c6@(uuy3-2k$f=d6c*9*wetioc&6x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,9 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'corsheaders',
-    'posts',
+    'Facebook',  
 ]
 
 MIDDLEWARE = [
@@ -50,7 +48,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -72,9 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # React frontend
-]
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -129,5 +123,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-FACEBOOK_APP_ID = '1563746208346169'
-FACEBOOK_APP_SECRET = 'cc1a1c509219e59d46c6f896caf25eec'
+
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+FB_APP_ID = os.getenv('FB_APP_ID')
+FB_APP_SECRET = os.getenv('FB_APP_SECRET')
+FB_REDIRECT_URI = os.getenv('FB_REDIRECT_URI')
