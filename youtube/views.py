@@ -1,7 +1,5 @@
 # views.py (add these new views)
-from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from django.views import View
 import google_auth_oauthlib.flow
 import os
 from rest_framework.views import APIView
@@ -14,14 +12,14 @@ from .utils.uplaod_video import upload_video
 from .models import YouTubeCredential
 from django.contrib.auth import get_user_model
 from rest_framework import status
-
+from rest_framework.permissions import IsAuthenticated
 User = get_user_model()
 
 
 # views.py
 class YouTubeUploadView(APIView):
     parser_classes = [MultiPartParser, FormParser]
-
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = VideoSerializer(data=request.data)
         if serializer.is_valid():
@@ -30,7 +28,6 @@ class YouTubeUploadView(APIView):
             save_path = os.path.join("videos", file_name)
             path = default_storage.save(save_path, video_file)
             full_path = os.path.join(settings.MEDIA_ROOT, path)
-
             try:
                 # TODO: Change later to request.user
                 response = upload_video(
@@ -40,7 +37,7 @@ class YouTubeUploadView(APIView):
                     "22",
                     ["WOW"],
                     serializer.validated_data["privacy"],
-                    User.objects.get(id=2),
+                    request.user,
                 )
 
                 return Response(response)
@@ -54,6 +51,8 @@ CLIENT_SECRETS_FILE = settings.GOOGLE_SECRETS_DIR / "client_secrets.json"
 
 
 class YouTubeAuthView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         # Disable OAuthlib's HTTPS verification when running locally
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
@@ -74,10 +73,13 @@ class YouTubeAuthView(APIView):
 
 
 class YouTubeCallbackView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
         state = request.session.get("youtube_auth_state")
+        state = "iwkL59BwNOVZyCLrOx2nYWDoah1Maw"
         if not state:
             return Response(
                 {"error": "No state found in session"},
@@ -94,7 +96,9 @@ class YouTubeCallbackView(APIView):
         flow.fetch_token(authorization_response=request.build_absolute_uri())
         credentials = flow.credentials
 
+        print( request.user)
+
         # TODO: Change later to request.user
-        YouTubeCredential.save_credentials(User.objects.get(id=2), credentials)
+        YouTubeCredential.save_credentials(request.user, credentials)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
