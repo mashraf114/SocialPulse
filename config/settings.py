@@ -41,9 +41,40 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
-    "Facebook",
-    "youtube",
+    "posts",
+    "rest_framework.authtoken",
+    "djoser",
+    "rest_framework_simplejwt",
+    "authapp",
 ]
+
+AUTH_USER_MODEL = "authapp.CustomUser"
+
+DJOSER = {
+    "LOGIN_FIELD": "email",
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "SEND_ACTIVATION_EMAIL": True,
+    "ACTIVATION_URL": "auth/activate/{uid}/{token}/",
+    "SERIALIZERS": {},
+}
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "no-reply@example.com"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"  # Gmail's SMTP server
+EMAIL_PORT = 587  # Use 587 for TLS
+EMAIL_USE_TLS = True  # Secure connection
+EMAIL_HOST_USER = "mohamed.ashraf.shaban11@gmail.com"  # Your Gmail address
+EMAIL_HOST_PASSWORD = "wkqasmnjssspgzsl"  # Your Gmail password (or App Password)
+DEFAULT_FROM_EMAIL = "mohamed.ashraf.shaban11@gmail.com"  # Default sender address
+
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
