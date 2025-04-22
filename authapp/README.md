@@ -17,7 +17,7 @@ This branch implements a secure, email-based user registration and activation fl
 - Djoser
 - DRF (Django Rest Framework)
 - Gmail SMTP
-- Postgres (optional)
+- SQLite
 
 ---
 
@@ -67,7 +67,7 @@ Better token management
 ✅ LinkedIn
 
 ✅ YouTube
----
+
 ## 🧪 Testing
 All current features can be tested with:
 
@@ -76,6 +76,6 @@ POST /auth/users/ to register
 POST /auth/users/activation/ with { "uid": "...", "token": "..." } to activate
 
 Frontend (React) will handle the UI for these
----
+
 ## 📁 Branch
 All this work is currently in the authenication branch.
