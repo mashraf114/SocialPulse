@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>Facebook Connected</title>
+    <meta charset="utf-8" />
+    <style>
+      body { font-family: Arial, sans-serif; background: #f7f7f7; text-align: center; padding-top: 80px; }
+      .box { background: #fff; display: inline-block; padding: 32px 40px; border-radius: 12px; box-shadow: 0 2px 16px #0002; }
+      h3 { color: #2d7cff; }
+      .close-msg { color: #333; margin-top: 18px; font-size: 15px; }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <h3>Facebook connected successfully!</h3>
+      <div class="close-msg">You can close this tab.<br>If it doesn't close automatically, please close it manually.</div>
+    </div>
+    <script>
+      if (window.opener) {
+        window.opener.postMessage('facebook_connected', '*');
+        setTimeout(() => window.close(), 1500);
+      }
+    </script>
+  </body>
+</html>
